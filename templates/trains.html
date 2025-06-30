@@ -1,0 +1,28 @@
+<style>
+    .card-image img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    margin-bottom: 10px;
+    filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.1));
+}
+
+</style>
+<div class="card-grid">
+    {% for train in trains %}
+    <div class="card">
+        <img src="https://cdn-icons-png.flaticon.com/512/7439/7439848.png" alt="Train">
+        <div class="card-content">
+            <h3>{{ train.trainName }} ({{ train.trainNumber }})</h3>
+            <p>From: {{ train.stationFrom }}</p>
+            <p>To: {{ train.stationTo }}</p>
+            {% if train.schedule and train.schedule[0] %}
+                <p>Departs: {{ train.schedule[0].departureTime }}</p>
+            {% endif %}
+            <a href="https://www.irctc.co.in" target="_blank">Book Now</a>
+        </div>
+    </div>
+    {% else %}
+    <p>No train data available. Try again later.</p>
+    {% endfor %}
+</div>

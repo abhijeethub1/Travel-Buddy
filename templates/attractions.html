@@ -1,0 +1,152 @@
+<style>
+    .card .card-image img {
+        width: 40px !important;
+        height: 40px !important;
+        object-fit: contain;
+        display: block;
+        margin: 0 auto 10px auto;
+        filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+    }
+    </style>
+    
+    <div class="card-grid" id="attractions">
+        {% if attractions and attractions|length > 0 %}
+            {% for attraction in attractions %}
+            <div class="card">
+                <div class="card-image">
+                    <img src="https://cdn-icons-png.flaticon.com/512/15545/15545055.png" 
+                         alt="{{ attraction.name }}">
+                </div>
+                <div class="card-content">
+                    <h3>{{ attraction.name }}</h3>
+                    <div class="attraction-meta">
+                        <span class="attraction-type">
+                            {{ attraction.kinds.split(',')[0]|replace('_', ' ')|title }}
+                        </span>
+                        <span class="attraction-distance">
+                            {% if attraction.dist < 1000 %}
+                                {{ attraction.dist|round }} meters
+                            {% else %}
+                                {{ (attraction.dist/1000)|round(1) }} km
+                            {% endif %}
+                        </span>
+                    </div>
+                    <a href="https://www.google.com/search?q={{ attraction.name|urlencode }}+{{ destination }}" 
+                       target="_blank" class="btn">
+                        View Details
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <!-- Empty div. Will be filled with JS fallback. -->
+        {% endif %}
+    </div>
+    
+    <script>
+    function showFallbackAttractions(destination) {
+        const container = document.getElementById('attractions');
+        const fallbackData = {
+            mumbai: {
+                title: "Popular Attractions in Mumbai",
+                list: [
+                    "Gateway of India",
+                    "Chhatrapati Shivaji Terminus",
+                    "Marine Drive",
+                    "Elephanta Caves",
+                    "Haji Ali Dargah"
+                ],
+                link: "https://www.tripadvisor.com/Attractions-g304554-Activities-Mumbai_Maharashtra.html"
+            },
+            delhi: {
+                title: "Popular Attractions in Delhi",
+                list: [
+                    "Red Fort",
+                    "Qutub Minar",
+                    "India Gate",
+                    "Lotus Temple",
+                    "Humayun's Tomb"
+                ],
+                link: "https://www.tripadvisor.com/Attractions-g304551-Activities-New_Delhi_National_Capital_Territory_of_Delhi.html"
+            },
+            bangalore: {
+                title: "Popular Attractions in Bangalore",
+                list: [
+                    "Lalbagh Botanical Garden",
+                    "Bangalore Palace",
+                    "Cubbon Park",
+                    "ISKCON Temple",
+                    "Vidhana Soudha"
+                ],
+                link: "https://www.tripadvisor.com/Attractions-g297628-Activities-Bengaluru_Bangalore_District_Karnataka.html"
+            },
+            kolkata: {
+                title: "Popular Attractions in Kolkata",
+                list: [
+                    "Victoria Memorial",
+                    "Howrah Bridge",
+                    "Dakshineswar Kali Temple",
+                    "Indian Museum",
+                    "Marble Palace"
+                ],
+                link: "https://www.tripadvisor.com/Attractions-g304558-Activities-Kolkata_Calcutta_Kolkata_District_West_Bengal.html"
+            },
+            jodhpur: {
+                title: "Popular Attractions in Jodhpur",
+                list: [
+                    "Mehrangarh Fort",
+                    "Jaswant Thada",
+                    "Umaid Bhawan Palace",
+                    "Clock Tower",
+                    "Mandore Gardens"
+                ],
+                link: "https://www.tripadvisor.com/Attractions-g297668-Activities-Jodhpur_Jodhpur_District_Rajasthan.html"
+            }
+        };
+    
+        const city = destination.toLowerCase();
+        const data = fallbackData[city];
+    
+        if (data) {
+            const listItems = data.list.map(item => `<li>${item}</li>`).join('');
+            container.innerHTML = `
+                <div class="fallback-attractions">
+                    <h3>${data.title}</h3>
+                    <ul>${listItems}</ul>
+                    <p>View more on <a href="${data.link}" target="_blank">TripAdvisor</a></p>
+                </div>
+            `;
+        } else {
+            container.innerHTML = `
+                <div class="fallback-attractions">
+                    <h3>No fallback attractions available for "${destination}"</h3>
+                    <p>Please try another city or try again later.</p>
+                </div>
+            `;
+        }
+    }
+
+    
+
+    
+    </script>
+    <script>
+            document.addEventListener("DOMContentLoaded", function() {
+    const dataDiv = document.getElementById('attraction-data');
+    const destination = dataDiv.dataset.destination.toLowerCase();
+    const count = parseInt(dataDiv.dataset.count);
+
+    if (count === 0) {
+        showFallbackAttractions(destination);
+    }
+});
+    </script>
+    
+        
+    
+    
+    
+    
+    
+    
+    

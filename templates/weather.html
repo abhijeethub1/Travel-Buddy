@@ -1,0 +1,26 @@
+<style>
+    .card > img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    margin-bottom: 10px;
+    display: block;
+    margin-left: 0;
+    margin-right: 0;
+    filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.1));
+}
+
+
+
+</style>
+<div class="card-image">
+    <img src="https://cdn-icons-png.flaticon.com/512/1779/1779940.png" alt="Weather">
+</div>
+    <div class="card-content">
+        <h3>Weather in {{ data.name }}</h3>
+        <p>Temperature: {{ (data.main.temp - 273.15) | round(2) }}°C</p>
+        <p>Condition: {{ data.weather[0].description | capitalize if data.weather else 'Unknown' }}</p>
+        <p>Humidity: {{ data.main.humidity }}%</p>
+        <p>Wind Speed: {{ data.wind.speed }} m/s</p>
+    </div>
+</div>

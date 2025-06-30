@@ -1,0 +1,32 @@
+<style>
+    .card-image img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    margin-bottom: 10px;
+    filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.1));
+}
+
+</style>
+<div class="card-grid">
+    {% for hotel in hotels %}
+    <div class="card">
+        <img src="https://cdn-icons-png.flaticon.com/512/235/235889.png" alt="{{ hotel.displayName }}">
+        <div class="card-content">
+            <h3>{{ hotel.displayName }}</h3>
+            <div class="rating">
+                {% for i in range(5) %}
+                    <span class="star {% if i < hotel.rating|float %}filled{% endif %}">★</span>
+                {% endfor %}
+                <span>({{ hotel.rating }}/5)</span>
+            </div>
+            <a href="{{ hotel.bookingLink }}" target="_blank" class="book-btn">View on TripAdvisor</a>
+        </div>
+    </div>
+    {% else %}
+    <div class="no-results">
+        <p>We couldn't find hotel data for this location.</p>
+        <p>Try searching on <a href="https://www.tripadvisor.com/Hotels" target="_blank">TripAdvisor</a></p>
+    </div>
+    {% endfor %}
+</div>
